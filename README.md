@@ -5,9 +5,6 @@
     For each shot find all "likers"
     Calculate Top 10 "likers"
 
-## Practicability
-    As usually it for fun =), experience with Clojure IT stack.
-
 ## Requirements
 
 ### I Cassandra 3
