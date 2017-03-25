@@ -1,0 +1,51 @@
+{:profile #profile {:default :default :dev :dev :test :test :prod :prod}
+
+ :env-config
+ {:onyx/tenancy-id                     #profile {:default "1"
+                                                 :docker  #env ONYX_ID
+                                                 :prod    "3"}
+  :onyx.bookkeeper/server?             true
+  :onyx.bookkeeper/local-quorum?       true
+  :onyx.bookkeeper/delete-server-data? true
+  :onyx.bookkeeper/local-quorum-ports  [3196 3197 3198]
+  :onyx.bookkeeper/port                3196
+  :zookeeper/address                   #profile {:default "127.0.0.1:2188"
+                                                 :docker  "zookeeper:2181"
+                                                 :prod    "127.0.0.1:2181"}
+  :zookeeper/server?                   #profile {:default true
+                                                 :docker  false
+                                                 :prod    false}
+  :zookeeper.server/port               #profile {:default 2188
+                                                 :docker  2188
+                                                 :prod    2181}
+  :onyx.log/config                     #profile {:default nil
+                                                 :docker  {:level :info}}}
+ :peer-config
+ {:onyx/tenancy-id                       #profile {:default "1"
+                                                   :docker  #env ONYX_ID
+                                                   :prod    "3"}
+  :zookeeper/address                     #profile {:default "127.0.0.1:2188"
+                                                   :docker  "zookeeper:2181"
+                                                   :prod    "127.0.0.1:2181"}
+  :onyx.peer/job-scheduler               :onyx.job-scheduler/balanced
+  :onyx.peer/zookeeper-timeout           60000
+  :onyx.messaging/allow-short-circuit?   #profile {:default false
+                                                   :docker  true
+                                                   :prod    true}
+  :onyx.messaging/impl                   :aeron
+  :onyx.messaging/bind-addr              #or [#env BIND_ADDR "localhost"]
+  :onyx.messaging/peer-port              40200
+  :onyx.messaging.aeron/embedded-driver? #profile {:default true
+                                                   :docker  false
+                                                   :prod    true}
+  :onyx.log/config                       #profile {:default nil
+                                                   :docker  {:level :info}}}
+ :job-config
+ {:api-octopus/cassandra-spec {:hosts    #profile {:default ["127.0.0.1"]
+                                                   :prod    ["127.0.0.1"]}
+                               :keyspace "api_octopus"
+                               :dc       #profile {:default "DC1"
+                                                   :prod    "DCM"}}}
+ :web                     {:port 8000}
+ :kafka-bootstrap.servers #profile {:default ["127.0.0.1:9092"]
+                                    :prod    ["127.0.0.1:9092"]}}
